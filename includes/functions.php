@@ -1,0 +1,3 @@
+<?php
+
+namespace AT\MultiAuthor;
