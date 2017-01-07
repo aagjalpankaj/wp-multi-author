@@ -1,16 +1,15 @@
 <?php
 /**
  * Plugin Name: AT MultiAuthor
- * Plugin URI: https://thinkatat.com/
- * Description: One post, multiple contributors made easy!
- * Version: 1.0.0
+ * Plugin URI: http://thinkatat.com/
+ * Description: One post, multiple contributors!
+ * Version: 1.0.1
  * Author: thinkatat
- * Author URI: https://thinkatat.com/
+ * Author URI: http://thinkatat.com/
  * Text Domain: at-multiauthor
  * Domain Path: /languages/
  *
  * @package at-multiauthor
- * @category Core
  * @author thinkatat
  */
 
@@ -18,7 +17,7 @@
 defined( 'ABSPATH' ) || exit( 'This is not the way to call me.' );
 
 // Plugin setup - Basic constants.
-define( 'ATMAT_VERSION', '1.0.0' );
+define( 'ATMAT_VERSION', '1.0.1' );
 define( 'ATMAT_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'ATMAT_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 

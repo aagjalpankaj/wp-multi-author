@@ -107,6 +107,14 @@ class Main {
 			false
 		);
 
+		// Admin side main CSS.
+		wp_register_style(
+			'atmat-backend-css',
+			ATMAT_URL . '/assets/css/backend.css',
+			array(),
+			ATMAT_VERSION
+		);
+
 		// Admin side main JS.
 		wp_register_script(
 			'atmat-backend-js',

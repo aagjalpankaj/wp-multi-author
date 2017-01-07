@@ -25,11 +25,11 @@ class Backend {
 	 */
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_metaboxes' ), 10, 2 );
-		add_action( 'save_post_post', array( $this, 'save_post_post' ) );
+		add_action( 'save_post_post', array( $this, 'save_metabox_multiauthor' ) );
 	}
 
 	/**
-	 * Define all metaboxes.
+	 * Add metaboxes.
 	 */
 	public function add_metaboxes() {
 		add_meta_box(
@@ -45,21 +45,37 @@ class Backend {
 	/**
 	 * Metabox Contributors content.
 	 *
-	 * @param object $post posts.
+	 * @param object $post post.
 	 */
 	public function render_metabox_multiauthor( $post ) {
+
+		$disabled = null;
+		if ( ! count( array_intersect( get_allowed_roles(), (array) wp_get_current_user()->roles ) ) ) {
+			// Current user is not allowed to manage contributors.
+			$disabled = 'disabled';
+		}
+
+		// Required CSS and JS.
 		wp_enqueue_style( 'atmat-select2-css' );
 		wp_enqueue_script( 'atmat-select2-js' );
 		wp_enqueue_script( 'atmat-backend-js' );
-		
+		wp_localize_script(
+			'atmat-backend-js',
+			'atmatStrings',
+			array(
+				'placeholder' => __('Select Contributor(s)', 'at-multiauthor')
+			)
+		);
 		$authors = get_post_meta( $post->ID, 'atmat_authors', true );
 		$users = get_users(
 			array(
 				'orderby'      => 'login',
 				'order'        => 'ASC',
 			)
-		); ?>
-		<select id="atmat-authors" name="atmat-authors[]" multiple="multiple" style="width: 100%">
+		);
+		do_action( 'atmat_metabox_multiauthor_before', $authors, $post );
+		?>
+		<select id="atmat-authors" name="atmat-authors[]" multiple="multiple" style="width: 100%" <?php echo $disabled; ?> >
 			<?php
 			foreach ( $users as $user ) {
 				$selected = in_array( $user->ID, (array) $authors ) ? 'selected' : null; ?>
@@ -67,7 +83,14 @@ class Backend {
 				<?php
 			} ?>
 		</select>
-	<?php
+		
+		<?php
+		if ( $disabled ) {
+			?>
+			<i><?php esc_html_e( 'You can\'t manage contributors of this post!', 'at-multiauthor' ); ?></i>
+			<?php
+		}
+		do_action( 'atmat_metabox_multiauthor_after', $authors, $post );
 		wp_nonce_field( 'atmat_save_settings', 'atmat-nonce' );
 	}
 
@@ -76,16 +99,15 @@ class Backend {
 	 *
 	 * @param int $post_id id of the post.
 	 */
-	public function save_post_post( $post_id ) {
+	public function save_metabox_multiauthor( $post_id ) {
 		// Security pass 1.
 		if ( ! isset( $_POST['atmat-nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['atmat-nonce'] ), 'atmat_save_settings' ) ) {
 			return;
 		}
 
-		$allowed_roles = array( 'administrator', 'editor', 'author' );
-		$user = wp_get_current_user();
-
-		if ( ! count( array_intersect( $allowed_roles, (array) $user->roles ) ) ) {
+		// Security pass 2.
+		if ( ! count( array_intersect( get_allowed_roles(), (array) wp_get_current_user()->roles ) ) ) {
+			// Current user is not allowed to manage contributors.
 			return;
 		}
 

@@ -40,7 +40,7 @@ class Frontend {
 
 			$authors = apply_filters( 'atmat_get_contributors_list', get_post_meta( $post->ID,  'atmat_authors', true ), $post->ID );
 
-			if ( $authors ) {
+			if ( is_array( $authors ) && count( $authors ) ) {
 
 				ob_start();
 				wp_enqueue_style( 'atmat-frontend-css' );
