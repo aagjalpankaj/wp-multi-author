@@ -29,6 +29,9 @@ An easy way to assign multiple contributors to posts.
 
 == Changelog ==
 
+= 1.0.2 =
+* Removed Subscriber from Contributors list.  
+
 = 1.0.1 =
 * Applied WordPress coding standards.
 
