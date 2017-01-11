@@ -116,7 +116,6 @@ class Backend {
 
 		if ( isset( $_POST['atmat-authors'] ) ) {
 			$role_in = get_contributors_role_in( $post_id );
-			
 			// Security pass 3 - Validate contributors ID.
 			foreach ( (array) $_POST['atmat-authors'] as $contributor_id ) {
 				$contributor_id = (int) $contributor_id;
