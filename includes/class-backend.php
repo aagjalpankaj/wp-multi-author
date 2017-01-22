@@ -63,7 +63,7 @@ class Backend {
 		wp_localize_script( 'atmat-backend-js', 'atmatBackend', array() );
 
 		$author_ids = array_filter( array_map( 'absint', (array) get_post_meta( $post->ID, 'atmat_authors', true ) ) );
-		
+
 		$json_ids    = array();
 		foreach ( $author_ids as $author_id ) {
 			$author = get_user_by( 'id', $author_id );
@@ -103,9 +103,8 @@ class Backend {
 			die();
 		}
 
-
 		$exclude = apply_filters( 'atmat_get_exclude_contributors_ids', array() );
-		
+
 		$found_contributors = array();
 
 		// Add search column `display_name`.
@@ -120,7 +119,7 @@ class Backend {
 			'orderby'        => 'display_name',
 			'search'         => '*' . $term . '*',
 			'search_columns' => array( 'ID', 'display_name', 'user_email' ),
-			'role__in'		 => get_contributors_role_in()
+			'role__in'		 => get_contributors_role_in(),
 		) ) );
 
 		$contributors = $contributors_query->get_results();
@@ -156,11 +155,10 @@ class Backend {
 
 		$authors = array();
 
-		if ( isset( $_POST['atmat-authors'] ) && ! empty($_POST['atmat-authors']) ) {
+		if ( isset( $_POST['atmat-authors'] ) && ! empty( $_POST['atmat-authors'] ) ) {
 			$role_in = get_contributors_role_in( $post_id );
-			
-			// Security pass 3 - Validate contributors ID.
 			$post_authors = explode( ',', sanitize_text_field( $_POST['atmat-authors'] ) );
+			// Security pass 3 - Validate contributors ID.
 			foreach ( $post_authors as $contributor_id ) {
 				$contributor_id = (int) $contributor_id;
 				$contributor = get_userdata( $contributor_id );
