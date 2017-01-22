@@ -29,6 +29,8 @@ An easy way to assign multiple contributors to posts.
 
 == Changelog ==
 
+= 1.0.4 =
+
 = 1.0.3 =
 * Tweak - Delete plugin's data after uninstallation.
 * Tweak - Contributors dropdown performance improvement.
