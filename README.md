@@ -1,4 +1,4 @@
-# AT MultiAuthor
+# WP Multi Author
 WordPress Plugin - One post, multiple contributors!
 
 An easy way to assign multiple contributors to posts.
