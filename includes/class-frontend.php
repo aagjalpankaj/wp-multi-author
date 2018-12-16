@@ -1,16 +1,15 @@
 <?php
 /**
- * AT MultiAuthor Frontent class.
+ * WP Multi Author Frontent class.
  *
  * Handles all frontend side functionality.
  *
  * @author   thinkatat
- * @category API
- * @package  at-multiauthor/includes
+ * @package  wp-multi-author/includes
  * @since    1.0.0
  */
 
-namespace AT\MultiAuthor;
+namespace WP_Multi_Author;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit( 'This is not the way to call me.' );
@@ -35,18 +34,19 @@ class Frontend {
 	 * @return 	string $content Post content.
 	 */
 	public function the_content( $content ) {
+
 		if ( is_single() ) {
 			global $post;
 
-			$authors = apply_filters( 'atmat_get_contributors_list', get_post_meta( $post->ID,  'atmat_authors', true ), $post->ID );
+			$authors = apply_filters( 'wpmat_get_contributors_list', get_post_meta( $post->ID,  'wpmat_authors', true ), $post->ID );
 
 			if ( is_array( $authors ) && count( $authors ) ) {
 
 				ob_start();
-				wp_enqueue_style( 'atmat-frontend-css' );
+				wp_enqueue_style( 'wpmat-frontend-css' );
 				?>
-				<div class="atmat-contributors-wrapper">
-					<strong><?php esc_html_e( 'Contributors', 'at-multiauthor' ); ?></strong>
+				<div class="wpmat-contributors-wrapper">
+					<strong><?php esc_html_e( 'Contributors', 'wp-multi-author' ); ?></strong>
 					<ul>
 					<?php
 					foreach ( (array) $authors as $author_id ) {
@@ -56,7 +56,7 @@ class Frontend {
 							?>
 							<li>
 								<span>
-									<?php echo get_avatar( $user_info->ID, apply_filters( 'atmat_author_bio_avatar_size', 42 ) ); ?>
+									<?php echo get_avatar( $user_info->ID, apply_filters( 'wpmat_author_bio_avatar_size', 42 ) ); ?>
 								</span>
 								<span>
 									<a href="<?php echo esc_url( get_author_posts_url( $user_info->ID ) ); ?>">

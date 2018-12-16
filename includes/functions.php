@@ -7,7 +7,7 @@
  * @since     	1.0.1
  */
 
-namespace AT\MultiAuthor;
+namespace WP_Multi_Author;
 
 /**
  * Function returns user roles having access to manage contributors.
@@ -17,7 +17,7 @@ namespace AT\MultiAuthor;
  * @since 1.0.1
  */
 function get_allowed_roles( $post_id = null ) {
-	return apply_filters( 'atmat_get_allowed_roles', array( 'administrator', 'editor', 'author' ), $post_id );
+	return apply_filters( 'wpmat_get_allowed_roles', array( 'administrator', 'editor', 'author' ), $post_id );
 }
 
 
@@ -29,5 +29,5 @@ function get_allowed_roles( $post_id = null ) {
  * @since 1.0.2
  */
 function get_contributors_role_in( $post_id = null ) {
-	return apply_filters( 'atmat_get_contributors_role_in', array( 'administrator', 'editor', 'author', 'contributor' ), $post_id );
+	return apply_filters( 'wpmat_get_contributors_role_in', array( 'administrator', 'editor', 'author', 'contributor' ), $post_id );
 }
