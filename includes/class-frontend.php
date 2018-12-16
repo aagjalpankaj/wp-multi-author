@@ -4,7 +4,7 @@
  *
  * Handles all frontend side functionality.
  *
- * @author   thinkatat
+ * @author   aagjalpankaj
  * @package  wp-multi-author/includes
  * @since    1.0.0
  */

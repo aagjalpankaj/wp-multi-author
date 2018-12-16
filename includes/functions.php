@@ -2,9 +2,9 @@
 /**
  * General purpose reusable functions.
  *
- * @author      thinkatat
- * @package     at-multiauthor
- * @since     	1.0.1
+ * @author      aagjalpankaj
+ * @package     wp-multi-author
+ * @since     	1.0.0
  */
 
 namespace WP_Multi_Author;
@@ -14,7 +14,7 @@ namespace WP_Multi_Author;
  *
  * @param  int $post_id Post ID for which want.
  * @return array $allowed_roles Allowed roles.
- * @since 1.0.1
+ * @since 1.0.0
  */
 function get_allowed_roles( $post_id = null ) {
 	return apply_filters( 'wpmat_get_allowed_roles', array( 'administrator', 'editor', 'author' ), $post_id );
@@ -26,7 +26,7 @@ function get_allowed_roles( $post_id = null ) {
  *
  * @param  int $post_id Post ID for which roles want.
  * @return array $include_roles Roles which have to include in the contributors list.
- * @since 1.0.2
+ * @since 1.0.0
  */
 function get_contributors_role_in( $post_id = null ) {
 	return apply_filters( 'wpmat_get_contributors_role_in', array( 'administrator', 'editor', 'author', 'contributor' ), $post_id );
