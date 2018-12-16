@@ -1,10 +1,10 @@
-=== AT MultiAuthor ===
-Contributors: thinkatat
-Donate link: http://thinkatat.com/
+=== WP Multi Author ===
+Contributors: aagjalpankaj
+Donate link: https://www.linkedin.com/in/aagjalpankaj/
 Tags: post, author, multiple, contributors
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 4.3
+Tested up to: 4.9.9
+Stable tag: 4.9.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,12 +12,12 @@ One post, multiple contributors!
 
 == Description ==
 
-An easy way to assign multiple contributors to posts.
+Assign multiple contributors to posts.
 
 = Steps =
 - Go to Dashboard->Edit Post.
-- Select contributors from meta box Contributors.
-- The selected contributors will be shown at frontend single post page.
+- Select contributors from the side box "Contributors".
+- The selected contributors will be shown below the post at frontend.
 
 
 == Installation ==
@@ -29,18 +29,5 @@ An easy way to assign multiple contributors to posts.
 
 == Changelog ==
 
-= 1.0.4 =
-* Tweak - Handle condition when users are huge (Added select2 ajax).
-
-= 1.0.3 =
-* Tweak - Delete plugin's data after uninstallation.
-* Tweak - Contributors dropdown performance improvement.
-
-= 1.0.2 =
-* Tweak - Remove Subscriber from Contributors list.
-
-= 1.0.1 =
-* Tweak - Apply WordPress coding standards.
-
-= 1.0 =
+= 1.0.0 =
 * Initial release.

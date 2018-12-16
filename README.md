@@ -1,13 +1,12 @@
 # WP Multi Author
 WordPress Plugin - One post, multiple contributors!
 
-An easy way to assign multiple contributors to posts.
+Assign multiple contributors to posts.
 
 = Steps =
 - Go to Dashboard->Edit Post.
-- Select contributors from meta box Contributors.
-- The selected contributors will be shown at frontend single post page.
+- Select contributors from the side box "Contributors".
+- The selected contributors will be shown below the post at frontend.
 
 ## Links
-* [WordPress.org Plugin Link](https://wordpress.org/plugins/at-multiauthor/)
-* [Documentation](http://thinkatat/)
+

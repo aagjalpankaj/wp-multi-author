@@ -1,16 +1,15 @@
 <?php
 /**
- * AT MultiAuthor Backend class.
+ * WP Multi Author Backend class.
  *
  * Handles all dashboard side functionality.
  *
- * @author   thinkatat
- * @category API
- * @package  at-multiauthor/includes
+ * @author   aagjalpankaj
+ * @package  wp-multi-author/includes
  * @since    1.0.0
  */
 
-namespace AT\MultiAuthor;
+namespace WP_Multi_Author;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit( 'This is not the way to call me.' );
@@ -33,9 +32,10 @@ class Backend {
 	 * Add metaboxes.
 	 */
 	public function add_metaboxes() {
+
 		add_meta_box(
-			'atmat-mb-multi-author',
-			__( 'Contributors', 'at-multiauthor' ),
+			'wpmat-mb-multi-author',
+			__( 'Contributors', 'wp-multi-author' ),
 			array( $this, 'render_metabox_multiauthor' ),
 			'post',
 			'side',
@@ -57,12 +57,12 @@ class Backend {
 		}
 
 		// Required CSS and JS.
-		wp_enqueue_style( 'atmat-select2-css' );
-		wp_enqueue_script( 'atmat-select2-js' );
-		wp_enqueue_script( 'atmat-backend-js' );
-		wp_localize_script( 'atmat-backend-js', 'atmatBackend', array() );
+		wp_enqueue_style( 'wpmat-select2-css' );
+		wp_enqueue_script( 'wpmat-select2-js' );
+		wp_enqueue_script( 'wpmat-backend-js' );
+		wp_localize_script( 'wpmat-backend-js', 'wpmatBackend', array() );
 
-		$author_ids = array_filter( array_map( 'absint', (array) get_post_meta( $post->ID, 'atmat_authors', true ) ) );
+		$author_ids = array_filter( array_map( 'absint', (array) get_post_meta( $post->ID, 'wpmat_authors', true ) ) );
 
 		$json_ids    = array();
 		foreach ( $author_ids as $author_id ) {
@@ -72,24 +72,25 @@ class Backend {
 			}
 		}
 
-		do_action( 'atmat_metabox_multiauthor_before', $author_ids, $post );
+		do_action( 'wpmat_metabox_multiauthor_before', $author_ids, $post );
 		?>
-		<input type="hidden" class="atmat-select2" name="atmat-authors" style="width: 100%" data-placeholder="<?php esc_attr_e( 'Add contributors&hellip;', 'at-multiauthor' ); ?>" data-action="get_contributors_list" data-multiple="true" data-allow_clear="true" data-selected="<?php echo esc_attr( json_encode( $json_ids ) ); ?>" value="<?php echo implode( ',', array_keys( $json_ids ) ); ?>" <?php echo $disabled; ?> />
+		<input type="hidden" class="wpmat-select2" name="wpmat-authors" style="width: 100%" data-placeholder="<?php esc_attr_e( 'Add contributors&hellip;', 'wp-multi-author' ); ?>" data-action="get_contributors_list" data-multiple="true" data-allow_clear="true" data-selected="<?php echo esc_attr( json_encode( $json_ids ) ); ?>" value="<?php echo implode( ',', array_keys( $json_ids ) ); ?>" <?php echo $disabled; ?> />
 		<?php
 		if ( $disabled ) {
 			?>
 			<i><?php esc_html_e( 'You can\'t manage contributors of this post!', 'at-multiauthor' ); ?></i>
 			<?php
 		}
-		do_action( 'atmat_metabox_multiauthor_after', $author_ids, $post );
-		wp_nonce_field( 'atmat_save_settings', 'atmat-nonce' );
+		do_action( 'wpmat_metabox_multiauthor_after', $author_ids, $post );
+		wp_nonce_field( 'wpmat_save_settings', 'wpmat-nonce' );
 	}
 
 	public function get_contributors_list() {
+
 		ob_start();
 
 		// Security pass 1.
-		check_ajax_referer( 'atmat_save_settings', 'security' );
+		check_ajax_referer( 'wpmat_save_settings', 'security' );
 
 		// Security pass 2.
 		if ( ! current_user_can( 'edit_posts' ) ) {
@@ -103,7 +104,7 @@ class Backend {
 			die();
 		}
 
-		$exclude = apply_filters( 'atmat_get_exclude_contributors_ids', array() );
+		$exclude = apply_filters( 'wpmat_get_exclude_contributors_ids', array() );
 
 		$found_contributors = array();
 
@@ -114,7 +115,7 @@ class Backend {
 		} );
 
 		// WP user query.
-		$contributors_query = new \WP_User_Query( apply_filters( 'atmat_get_contributors_list_query', array(
+		$contributors_query = new \WP_User_Query( apply_filters( 'wpmat_get_contributors_list_query', array(
 			'fields'         => 'all',
 			'orderby'        => 'display_name',
 			'search'         => '*' . $term . '*',
@@ -132,7 +133,7 @@ class Backend {
 			}
 		}
 
-		$found_contributors = apply_filters( 'atmat_found_contributors', $found_contributors );
+		$found_contributors = apply_filters( 'wpmat_found_contributors', $found_contributors );
 		wp_send_json( $found_contributors );
 	}
 
@@ -143,7 +144,7 @@ class Backend {
 	 */
 	public function save_metabox_multiauthor( $post_id ) {
 		// Security pass 1 - Nonce verification.
-		if ( ! isset( $_POST['atmat-nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['atmat-nonce'] ), 'atmat_save_settings' ) ) {
+		if ( ! isset( $_POST['wpmat-nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['wpmat-nonce'] ), 'wpmat_save_settings' ) ) {
 			return;
 		}
 
@@ -155,9 +156,9 @@ class Backend {
 
 		$authors = array();
 
-		if ( isset( $_POST['atmat-authors'] ) && ! empty( $_POST['atmat-authors'] ) ) {
+		if ( isset( $_POST['wpmat-authors'] ) && ! empty( $_POST['wpmat-authors'] ) ) {
 			$role_in = get_contributors_role_in( $post_id );
-			$post_authors = explode( ',', sanitize_text_field( $_POST['atmat-authors'] ) );
+			$post_authors = explode( ',', sanitize_text_field( $_POST['wpmat-authors'] ) );
 			// Security pass 3 - Validate contributors ID.
 			foreach ( $post_authors as $contributor_id ) {
 				$contributor_id = (int) $contributor_id;
@@ -168,6 +169,6 @@ class Backend {
 			}
 		}
 
-		update_post_meta( $post_id, 'atmat_authors', $authors );
+		update_post_meta( $post_id, 'wpmat_authors', $authors );
 	}
 }
